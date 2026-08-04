@@ -4,6 +4,7 @@ from pydantic import BaseModel
 import joblib
 import pandas as pd
 import json
+from pathlib import Path
 
 app = FastAPI()
 
@@ -21,11 +22,14 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+# تحديد مسار المشروع
+BASE_DIR = Path(__file__).resolve().parent.parent
+
 # تحميل الموديل
-model = joblib.load("model/house_price.pkl")
+model = joblib.load(BASE_DIR / "model" / "house_price.pkl")
 
 # تحميل الأماكن
-with open("model/locations.json", "r") as f:
+with open(BASE_DIR / "model" / "locations.json", "r") as f:
     locations = json.load(f)
 
 
